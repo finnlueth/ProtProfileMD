@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.pyc
+nohup*.out
+*.py[cod]
+*$py.class
+*.egg-info/
+.DS_Store
+.vscode/
+
+tmp/
+
+src/protprofilemdrust/target/
