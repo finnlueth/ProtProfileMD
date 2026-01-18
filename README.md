@@ -26,11 +26,7 @@ uv sync
 source .venv/bin/activate
 ```
 
-<<<<<<< HEAD
 Predict _FlexProfiles_ for any single line FASTA file. Path to input FASTA file, and output TSV file are required. Optionally, set batch size, and resume from (append to) existing tsv file.
-=======
-Predict _FlexProfiles_ for any single line FASTA file. Path to input FASTA file, and output TSV file are required. Optionally set batch size, and resume from (append to) existing tsv file.
->>>>>>> a1f0424b9ea09b3c8f4c78cb4134423569c99ef4
 
 ```sh
 python ./scripts/model_inference.py --input ./example/input.fasta --output ./example/output.tsv --resume_from_tsv True --batch_size 8
