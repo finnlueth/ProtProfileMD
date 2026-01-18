@@ -1,4 +1,4 @@
-# ProtProfileMD
+# ProtProfileMD: Protein Language Modeling beyond static folds reveals sequence-encoded flexibility
 
 Manuscript: Coming soon.
 
@@ -15,6 +15,8 @@ Our method recovers flexibility signals with a fidelity that is biologically rel
 
 **Availability and Implementation:** ProtProfileMD is available at github.com/finnlueth/ProtProfileMD.
 The associated training data and model weights are available at https://huggingface.co/datasets/finnlueth/ProtProfileMD and https://huggingface.co/finnlueth/ProtProfileMD.
+
+![ProtProfileMD Schematic](figures/ProtProfileMD_schematic.jpg)
 
 ## Setup and Use
 
