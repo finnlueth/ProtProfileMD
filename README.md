@@ -20,7 +20,7 @@ The associated training data and model weights are available at https://huggingf
 
 ## Setup and Use
 
-Initialize the virtual environment with all dependencies. UV is required for installatio.
+Initialize the virtual environment with all dependencies. UV is required for installation.
 
 ```sh
 uv sync
@@ -28,7 +28,7 @@ uv sync
 source .venv/bin/activate
 ```
 
-Predict _FlexProfiles_ for any single line FASTA file. Path to input FASTA file, and output TSV file are required. Optionally, set batch size, and resume from (append to) existing tsv file.
+Predict _FlexProfiles_ for any single-line FASTA file. Path to input FASTA file, and output TSV file are required. Optionally, set batch size, and resume from (append to) existing tsv file.
 
 ```sh
 python ./scripts/model_inference.py --input ./example/input.fasta --output ./example/output.tsv --resume_from_tsv True --batch_size 8
