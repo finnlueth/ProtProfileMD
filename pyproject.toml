@@ -1,0 +1,85 @@
+[project]
+# requires-python = ">=3.11,<3.13"
+requires-python = "==3.12.3"
+name ="protprofilemd"
+version = "1.0"
+description = "A library for protein profile prediction using protein language models."
+readme = "README.md"
+authors = [
+    { name = "Finn Lueth", email = "finn.lueth@tum.de" }
+]
+dependencies = [
+    "accelerate>=1.10.1",
+    "biopython>=1.85",
+    "biotite>=1.5.0",
+    "datasets>=4.3.0",
+    "fastpdb>=1.3.3",
+    "h5py>=3.15.1",
+    "lightning>=2.5.5",
+    "matplotlib>=3.10.7",
+    "mdanalysis>=2.10.0",
+    "numpy>=2.3.4",
+    "plotly>=6.3.1",
+    "scikit-learn>=1.7.2",
+    "seaborn>=0.13.2",
+    "sentencepiece>=0.2.1",
+    "torch>=2.9.0",
+    "transformers>=4.57.1",
+    "hf_xet==1.1.4-rc1",
+    "safetensors>=0.6.2",
+    "wandb>=0.22.2",
+    "peft>=0.18.0rc0",
+    "pyarrow>=21.0.0",
+    "mdtraj>=1.11.0",
+]
+
+[build-system]
+requires = ["maturin>=1.7,<2.0"]
+build-backend = "maturin"
+
+[tool.maturin]
+module-name = "protprofilemdrust"
+bindings = "pyo3"
+rust-source = "src/protprofilemdrust"
+manifest-path = "src/protprofilemdrust/Cargo.toml"
+python-source = "src"
+python-packages = ["protprofilemd"]
+
+[dependency-groups]
+dev = [
+    "huggingface-hub[cli]>=0.35.3",
+    "jupyter>=1.1.1",
+    "maturin>=1.9.6",
+    "nbformat>=5.10.4",
+    "nglview>=3.1.4",
+    "nvitop>=1.5.3",
+    "pytest>=8.4.2",
+]
+
+# [tool.uv.sources]
+# torch = [
+#     { index = "pytorch-cu128" },
+# ]
+
+# [[tool.uv.index]]
+# name = "pytorch-cu128"
+# url = "https://download.pytorch.org/whl/cu128"
+# explicit = true
+
+[tool.ruff]
+extend-select = ["C4", "NPY", "PD", "SIM"]
+ignore = ["E501", "F405"]
+show-fixes = true
+
+line-length = 128
+
+[tool.pylint]
+max-line-length = 128
+disable = []
+
+
+[tool.pytest.ini_options]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"
+testpaths = "tests"
