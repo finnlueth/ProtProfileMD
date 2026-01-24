@@ -1,6 +1,6 @@
 # ProtProfileMD: Protein Language Modeling beyond static folds reveals sequence-encoded flexibility
 
-Manuscript: Coming soon.
+Manuscript: https://www.biorxiv.org/content/10.64898/2026.01.21.700698v1
 
 ## Abstract
 
