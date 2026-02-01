@@ -5,22 +5,22 @@ from datasets import DatasetDict
 
 
 def setup_default_logging(filename: str = None):
-    os.makedirs(os.path.dirname(filename), exist_ok=True)
 
     formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(name)s - %(message)s")
 
     stream_handler = logging.StreamHandler()
     stream_handler.setFormatter(formatter)
 
+    handlers = [stream_handler]
     if filename is not None:
+        os.makedirs(os.path.dirname(filename), exist_ok=True)
         file_handler = logging.FileHandler(filename, mode="w", encoding="utf-8")
         file_handler.setFormatter(formatter)
-    else:
-        file_handler = None
+        handlers.append(file_handler)
 
     logging.basicConfig(
         level=logging.INFO,
-        handlers=[stream_handler, file_handler],
+        handlers=handlers,
     )
 
 

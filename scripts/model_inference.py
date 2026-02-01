@@ -1,5 +1,6 @@
 import argparse
 import os
+import uuid
 
 import yaml
 from datasets import Dataset
@@ -33,20 +34,21 @@ def parse_args() -> argparse.Namespace:
 
 if __name__ == "__main__":
     args = parse_args()
+    setup_default_logging()
+    
+    logger = get_logger("profile_inference")
+    logger.info(f"Run ID for inference: {str(uuid.uuid4())}")
     
     if not args.model_adapter_path:
         from huggingface_hub import hf_hub_download
+        os.system("hf download finnlueth/ProtProfileMD")
         cached_file_path = hf_hub_download(repo_id="finnlueth/ProtProfileMD", filename="train_config.yaml")
         args.model_adapter_path = os.path.dirname(cached_file_path)
+        print(f"Using HuggingFace model adapter at {args.model_adapter_path}")
 
     with open(os.path.join(args.model_adapter_path, "train_config.yaml"), "r") as f:
         train_config = yaml.safe_load(f)
     
-    setup_default_logging(
-        os.path.join(train_config["metadata"]["log_path"], f"{train_config['metadata']['run_id']}_inference_again.log")
-    )
-    logger = get_logger("profile_inference")
-    logger.info(f"Run ID for inference: {train_config['metadata']['run_id']}")
 
     with open(args.input, "r") as f:
         parsed_fasta = fasta_to_dict(f.read())
