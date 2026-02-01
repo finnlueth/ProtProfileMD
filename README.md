@@ -18,7 +18,7 @@ The associated training data and model weights are available at https://huggingf
 
 ![ProtProfileMD Schematic](figures/ProtProfileMD_schematic.jpg)
 
-## Setup and Use
+## Setup
 
 Initialize the virtual environment with all dependencies. UV is required for installation.
 
@@ -28,8 +28,44 @@ uv sync
 source .venv/bin/activate
 ```
 
+## Profile Generation
+
 Predict _FlexProfiles_ for any single-line FASTA file. Path to input FASTA file, and output TSV file are required. Optionally, set batch size, and resume from (append to) existing tsv file.
 
 ```sh
-python ./scripts/model_inference.py --input ./example/input.fasta --output ./example/output.tsv --resume_from_tsv True --batch_size 8
+python ./scripts/model_inference.py --input <INPUT AA FASTA FILE> --output <OUTPUT PROFILE TSV FILE> --resume_from_tsv True --batch_size 4
+```
+
+## Foldseek Search with Profiles
+
+In order to search using our profiles, we must convert the `.tsv` into a Foldseek database. If you do not already have a 3Di FASTA, one may be created from the profiles. Then the profiles and the 3Di fasta are converted into a profile database.
+
+```sh
+python ./src/protprofilemdanalysis/scripts-data/argmax_profiles.py --in_profile_path <INPUT PROFILE TSV FILE> --out_fasta_path <OUTPUT FASTA FILE> --subtract_background True
+
+python ./src/protprofilemdanalysis/scripts-data/generate_foldseek_db.py <INPUT AA FASTA FILE> <INPUT 3Di FASTA FILE> <OUTPUT SEQUENCE DB> <TEMP DIR>
+
+python ./src/protprofilemdanalysis/scripts-data/build_profiledb.py <INPUT PROFILE TSV> <INPUT SEQUENCE DB> <OUTPUT PRODFILE DB>
+```
+
+Now, we can use the profile database with Foldseek search (and other commands) as we would use any other Foldseek database.
+
+```sh
+foldseek search <PROFILE DATABASE> <SEQUENCE DATABASE> <ALIGNMENT DIR> <TEMP DIR>
+```
+
+## Example
+
+This is an easy-to-use example based on an abridged version of the SCOPe database.
+
+```sh
+python ./scripts/model_inference.py --input ./example/input_aa.fasta --output ./example/output_profile.tsv --resume_from_tsv True --batch_size 8
+
+python ./src/protprofilemdanalysis/scripts-data/argmax_profiles.py --in_profile_path ./example/output_profile.tsv --out_fasta_path ./example/output_3di.fasta --subtract_background True
+
+python ./src/protprofilemdanalysis/scripts-data/generate_foldseek_db.py ./example/input_aa.fasta ./example/output_3di.fasta ./example/alignResults/db_sequence/foldseekDB ./example/alignResults/tmp
+
+python ./src/protprofilemdanalysis/scripts-data/build_profiledb.py ./example/output_profile.tsv ./example/alignResults/db_sequence/foldseekDB ./example/alignResults/db_profile
+
+foldseek search ./example/alignResults/db_profile/foldseekDB_profile ./example/alignResults/db_sequence/foldseekDB ./example/alignResults/aln ./example/alignResults/tmp -s 9.5 --max-seqs 2000 -e 10
 ```
