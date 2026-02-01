@@ -22,6 +22,9 @@ The associated training data and model weights are available at https://huggingf
 
 Initialize the virtual environment with all dependencies. UV is required for installation.
 
+> [!NOTE]
+> A CUDA capable device is recommended. CPU and MPS may work, but are not supported.
+
 ```sh
 uv sync
 
